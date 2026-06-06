@@ -13,10 +13,14 @@ const signupUserController = async (req, res) => {
         id: Date.now().toString(),
         username,
         password: passwordHash
-    }   
+    }
+
     // SAVE THE USER DATA TO THE FILE.
-    saveUserData(newUserData);
-    res.status(200).send("User created successfully."); 
+    const result = saveUserData(newUserData);
+    if (!result.success) {
+        return res.status(409).send(result.message);
+    }
+    res.status(200).send(result.message); 
 };
 
 
