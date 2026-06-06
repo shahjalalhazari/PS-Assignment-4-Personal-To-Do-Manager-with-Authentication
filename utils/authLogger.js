@@ -34,6 +34,18 @@ const saveUserData = (userData) => {
 };
 
 
+// FUNCTION TO CHECK IF USER EXISTS.
+const checkUser = (username) => {
+    if (fs.existsSync(usersFilePath)) {
+        const raw = fs.readFileSync(usersFilePath, "utf-8");
+        const data = JSON.parse(raw);
+        return data.find((user) => user.username.toLowerCase() === username.toLowerCase());
+    }
+    return null;
+};
+
+
 module.exports = {
-    saveUserData
-}
+    saveUserData,
+    checkUser
+};

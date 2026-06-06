@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
-const { saveUserData } = require("../utils/logger");
+const jwt = require("jsonwebtoken");
+const { saveUserData, checkUser } = require("../utils/authLogger");
 
+
+// USER SIGNUP CONTROLLER FUNCTION
 const signupUserController = async (req, res) => {
     // GET THE USERNAME & PASSWORD FROM REQUEST BODY THEN VALIDATE THEM.
     const {username, password} = req.body;
@@ -24,6 +27,39 @@ const signupUserController = async (req, res) => {
 };
 
 
+// USER SIGNIN CONTROLLER FUNCTION
+const signinUserController = (req, res) => {
+    // GET THE USERNAME & PASSWORD FROM REQUEST BODY THEN VALIDATE THEM.
+    const {username, password} = req.body;
+    if (!username || !password) {
+        return res.status(400).send("Username and password are required.");
+    }
+    // CHECK THE USER EXISTS OR NOT.
+    const user = checkUser(username);
+    if (user) {
+        // IF USER EXISTS THEN COMPARE THE PASSWORD.
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            // IF ANY ERROR WHILE COMPARING.
+            if (err) {
+                return res.status(500).send("Error occurred while comparing passwords.");
+            }
+            // IF PASSWORD MATCH SUCCESSFULLY THEN GENERATE A JWT TOKEN AND SEND TO THE USER.
+            if (isMatch) {
+                const payload = {username: user.username};
+                // GENERATE A JWT TOKEN FOR THE USER.
+                const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+                res.status(200).send({ message: "Signin successful.", token });
+            } else {
+                res.status(401).send("Invalid username or password.");
+            }
+        });
+    } else {
+        res.status(404).send("User not found.");
+    }
+};
+
+
 module.exports = {
-    signupUserController
+    signupUserController,
+    signinUserController
 }
