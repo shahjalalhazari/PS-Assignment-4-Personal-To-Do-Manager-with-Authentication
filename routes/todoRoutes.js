@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const { addTodoController } = require("../controllers/todoControllers");
+const { addTodoController, getTodoOfUserController } = require("../controllers/todoControllers");
 
 
 // GET ALL TO-DOS
-router.get("/", (req, res) => {
-    res.json({ message: "Get todo list."})
-})
+router.get("/", getTodoOfUserController);
 
 
 // ADD NEW TO-DO
-router.post("/add-todo", addTodoController)
+router.post("/add-todo", addTodoController);
+
 
 module.exports = router;

@@ -25,6 +25,18 @@ const saveNewTodo = (todoData) => {
 };
 
 
+// FUNCTION TO GET TODOS OF CURRENT USER
+const getTodoOfCurrentUser = (userId) => {
+    if (fs.existsSync(todoFilePath)) {
+        const raw = fs.readFileSync(todoFilePath, "utf-8");
+        const data = JSON.parse(raw);
+        return data.filter((todo) => todo.userId === userId);
+    }
+    return [];
+}
+
+
 module.exports = {
-    saveNewTodo
+    saveNewTodo,
+    getTodoOfCurrentUser
 }
