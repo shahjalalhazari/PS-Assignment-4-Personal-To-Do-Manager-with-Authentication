@@ -1,15 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const { addTodoController, getTodoOfUserController } = require("../controllers/todoControllers");
+const { addTodoController, getTodoOfUser } = require("../controllers/todoControllers");
+
+// MIDDLEWARE
+const authMiddleware = require("../middleware/authMiddleware");
 
 
 // GET ALL TO-DOS
-router.get("/", getTodoOfUserController);
+router.get("/", authMiddleware, getTodoOfUser);
 
 
 // ADD NEW TO-DO
-router.post("/add-todo", addTodoController);
+router.post("/add-todo", authMiddleware, addTodoController);
 
 
 module.exports = router;

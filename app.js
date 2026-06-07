@@ -29,14 +29,9 @@ app.use("/api/auth", authRoutes);
 
 
 // TO-DO ROUTES
-// const todoRoutes = require("./routes/todoRoutes");
-// app.use("/api/todo", todoRoutes);
-
-// app.get("/api/todo", (req, res) => {
-//   res.json({ message: "Get all todos."})
-// })
 const todoRoutes = require("./routes/todoRoutes");
 app.use("/api/todo", todoRoutes);
+
 
 // STARTING THE SERVER
 app.listen(PORT, () => {
