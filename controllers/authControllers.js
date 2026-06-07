@@ -13,7 +13,7 @@ const signupUserController = async (req, res) => {
     // CONVERT THE PASSWORD TO HASHED PASSWORD, CREATE USER OBJECT.
     const passwordHash = await bcrypt.hash(password, 12);
     const newUserData = {
-        id: Date.now().toString(),
+        id: Date.now().toString(), // USING CURRENT TIMESTAMP AS A UNIQUE ID FOR THE USER.
         username,
         password: passwordHash
     }
@@ -41,11 +41,15 @@ const signinUserController = (req, res) => {
         bcrypt.compare(password, user.password, (err, isMatch) => {
             // IF ANY ERROR WHILE COMPARING.
             if (err) {
-                return res.status(500).send("Error occurred while comparing passwords.");
+                return res.status(500).send("Password doesn't match.");
             }
             // IF PASSWORD MATCH SUCCESSFULLY THEN GENERATE A JWT TOKEN AND SEND TO THE USER.
             if (isMatch) {
-                const payload = {username: user.username};
+                // SET USERNAME & USER ID TO TOKEN AS PAYLOAD.
+                const payload = {
+                    userId: user.id,
+                    username: user.username
+                };
                 // GENERATE A JWT TOKEN FOR THE USER.
                 const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
                 res.status(200).send({ message: "Signin successful.", token });

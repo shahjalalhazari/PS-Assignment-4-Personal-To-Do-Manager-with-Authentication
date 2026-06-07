@@ -1,0 +1,30 @@
+const fs = require("fs");
+const path = require("path");
+
+// TO-DO DATA FILE PATH.
+const todoFilePath = path.join(__dirname, "../assets/todos.json");
+
+// FUNCTION TO SAVE TODO DATA TO THE FILE
+const saveNewTodo = (todoData) => {
+    let data = [];
+
+    if (fs.existsSync(todoFilePath)) {
+        const raw = fs.readFileSync(todoFilePath, "utf-8");
+        if (raw.trim()) {
+            data = JSON.parse(raw);
+        }
+    }
+
+    // SAVE NEW TODO DATA TO THE FILE.
+    data.push(todoData);
+    fs.writeFileSync(todoFilePath, JSON.stringify(data, null, 2));
+    return {
+        success: true,
+        message: "Todo added successfully."
+    }
+};
+
+
+module.exports = {
+    saveNewTodo
+}
