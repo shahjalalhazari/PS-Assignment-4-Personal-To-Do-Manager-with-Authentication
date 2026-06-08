@@ -33,10 +33,35 @@ const getTodoOfCurrentUser = (userId) => {
         return data.filter((todo) => todo.userId === userId);
     }
     return [];
+};
+
+
+// FUNCTION TO DELETE LOGGENIN USER TODO
+const deleteTodoOfCurrentUser = (todoId, userId) => {
+    if (fs.existsSync(todoFilePath)) {
+        const raw = fs.readFileSync(todoFilePath, "utf-8");
+        const data = JSON.parse(raw);
+
+        // FIND THE TODO
+        const todo = data.find(
+            todo => todo.id === todoId && todo.userId === userId
+        )
+        // VALIDATE TODO
+        if (!todo) return { success: false, message: "Todo not found."};
+
+        // REMOVE & UPDATE TODO LIST.
+        const updatedTodos = data.filter(
+            todo => !(todo.id === todoId && todo.userId === userId)
+        );
+
+        fs.writeFileSync(todoFilePath, JSON.stringify(updatedTodos, null, 2));
+        return { success: true };
+    }
 }
 
 
 module.exports = {
     saveNewTodo,
-    getTodoOfCurrentUser
+    getTodoOfCurrentUser,
+    deleteTodoOfCurrentUser
 }

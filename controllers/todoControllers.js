@@ -1,4 +1,4 @@
-const { saveNewTodo, getTodoOfCurrentUser } = require("../utils/todoLogger");
+const { saveNewTodo, getTodoOfCurrentUser, deleteTodoOfCurrentUser } = require("../utils/todoLogger");
 
 // CONTROLLER FUNCTION TO ADD NEW TODO OF USER. 
 const addTodoController = (req, res) => {
@@ -30,11 +30,26 @@ const getTodoOfUser = (req, res) => {
         return res.status(404).json({ message: "No data found!" });
     }
     return res.status(201).send(result);
+};
+
+
+// DELETE CURRENT USER'S TODO
+const deleteTodoController = (req, res) => {
+    const {id} = req.params;
+    const user = req.user.userId;
+
+    const result = deleteTodoOfCurrentUser(id, user);
+    if (!result.success) {
+        return res.status(404).json({message: result.message});
+    }
+
+    res.status(200).json({message: "Todo deleted successfully!"})
 }
 
 
 
 module.exports = {
     addTodoController,
-    getTodoOfUser
+    getTodoOfUser,
+    deleteTodoController
 }

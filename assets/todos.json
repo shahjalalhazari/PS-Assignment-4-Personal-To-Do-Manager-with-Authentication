@@ -1,11 +1,5 @@
 [
   {
-    "id": "1780858935038",
-    "userId": "1780772873209",
-    "text": "Go to shopping.",
-    "createdAt": "2026-06-07T19:02:15.038Z"
-  },
-  {
     "id": "1780858955012",
     "userId": "1780772873209",
     "text": "Buy vegetables.",
@@ -16,11 +10,5 @@
     "userId": "1780772885789",
     "text": "Write Code.",
     "createdAt": "2026-06-07T19:02:55.239Z"
-  },
-  {
-    "id": "1780858982351",
-    "userId": "1780772885789",
-    "text": "Write Code for assignment.",
-    "createdAt": "2026-06-07T19:03:02.351Z"
   }
 ]
