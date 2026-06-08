@@ -54,6 +54,7 @@ const signinUserController = async(req, res) => {
 
 // USER PROFILE CONTROLLER FUNCTION
 const getUserProfile = (req, res) => {
+    // FIRST METHOD: GET USER USER FROM THE DB OR USERS LIST.
     const username = req.user.username;
     const getUser = checkUser(username);
     if (!getUser) return res.status(401).json({message: "user not found!"});
@@ -62,7 +63,13 @@ const getUserProfile = (req, res) => {
         userId: getUser.id,
         username: getUser.username,
     }
-    res.send(user)
+    res.status(200).json(user)
+
+    // SECOND METHOD: GET USER FROM REQUEST HEADER.
+    res.status(200).json({
+        userId: req.user.userId,
+        username: req.user.username
+    });
 }
 
 
