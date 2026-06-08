@@ -52,7 +52,22 @@ const signinUserController = async(req, res) => {
 };
 
 
+// USER PROFILE CONTROLLER FUNCTION
+const getUserProfile = (req, res) => {
+    const username = req.user.username;
+    const getUser = checkUser(username);
+    if (!getUser) return res.status(401).json({message: "user not found!"});
+
+    const user = {
+        userId: getUser.id,
+        username: getUser.username,
+    }
+    res.send(user)
+}
+
+
 module.exports = {
     signupUserController,
-    signinUserController
+    signinUserController,
+    getUserProfile
 }
