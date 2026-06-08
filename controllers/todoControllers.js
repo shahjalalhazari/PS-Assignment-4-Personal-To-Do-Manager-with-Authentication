@@ -1,11 +1,10 @@
-const jwt = require("jsonwebtoken");
 const { saveNewTodo, getTodoOfCurrentUser } = require("../utils/todoLogger");
 
 // CONTROLLER FUNCTION TO ADD NEW TODO OF USER. 
 const addTodoController = (req, res) => {
     // GET THE TODO TEXT REQUEST BODY AND VALIDATE IT
     const { text } = req.body;
-    if (!text) return res.status(400).send("Text field is required!");
+    if (!text) return res.status(400).json({message: "Text field is required!"});
 
     // CREATE OBJECT OF NEW TODO DATA
     const newTodo = {
@@ -20,17 +19,17 @@ const addTodoController = (req, res) => {
     if (result.success) {
         return res.status(200).send(result.message);
     }
-    res.status(400).send("Something went wrong while adding todo"); 
+    res.status(400).json({message: "Something went wrong while adding todo"}); 
 };
 
 
 // GET ALL TODOS OF CURRENT / LOGGED IN USER
 const getTodoOfUser = (req, res) => {
     const result = getTodoOfCurrentUser(req.user.userId);
-    if (result.length >= 1) {
-        return res.status(200).send(result);
+    if (!result.length) {
+        return res.status(404).json({ message: "No data found!" });
     }
-    res.status(404).json({ message: "No data found!" }); 
+    return res.status(201).send(result);
 }
 
 
