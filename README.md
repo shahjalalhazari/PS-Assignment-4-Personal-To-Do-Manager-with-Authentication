@@ -96,7 +96,7 @@ npm install
 
 ```env
 PORT=5000
-JWT_SECRET=your_super_secret_key
+JWT_SECRET=create_your_own_secret_key
 ```
 
 ### Start the server
@@ -150,6 +150,7 @@ Request Body:
   "password": "password123"
 }
 ```
+create your own user by giving above mentioned data fields.
 
 Response:
 
