@@ -70,11 +70,20 @@ const getUserProfile = (req, res) => {
         userId: req.user.userId,
         username: req.user.username
     });
-}
+};
+
+
+// USER LOGOUT CONTROLLER
+const signoutUserController = (req, res) => {
+    res.status(200).json({
+        message: "Signout successful. Please remove the token from headers."
+    });
+};
 
 
 module.exports = {
     signupUserController,
     signinUserController,
-    getUserProfile
+    getUserProfile,
+    signoutUserController
 }
